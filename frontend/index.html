@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartFridgeApi - Frontend</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 700px;
+            margin: 36px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 6px 40px #0001;
+            padding: 28px 26px 22px 26px;
+        }
+        h1, h2, h3 {
+            color: #1877b9;
+            letter-spacing: .5px;
+            margin-top: 0;
+        }
+        input, select, button {
+            margin: 7px 0;
+            padding: 8px 11px;
+            border-radius: 6px;
+            border: 1px solid #c0c5ce;
+            font-size: 1em;
+            outline: none;
+        }
+        button {
+            background: linear-gradient(90deg,#4fb6ed,#2d80b7);
+            color: white;
+            border: none;
+            font-weight: 500;
+            box-shadow: 0 2px 5px #87b7da44;
+            transition: background .18s, transform .1s;
+            cursor: pointer;
+            border-radius: 20px;
+            padding: 8px 22px;
+        }
+        button:hover {
+            background: linear-gradient(90deg,#2d80b7,#1877b9);
+            transform: translateY(-2px) scale(1.04);
+        }
+        .section {
+            background: #f7fafc;
+            padding: 24px 18px 18px 18px;
+            margin-bottom: 24px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #0001;
+        }
+        .status {
+            margin-left: 12px;
+            font-weight: bold;
+            color: #219150;
+        }
+        /* Ingredient Cards */
+        #ingredientsList {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-left: 0;
+        }
+        #ingredientsList li {
+            list-style: none;
+            background: #eaf6fb;
+            min-width: 140px;
+            padding: 12px 18px 12px 12px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 1px 4px #1b56c029;
+            margin-bottom: 0;
+            position: relative;
+            transition: box-shadow .14s;
+        }
+        #ingredientsList li:hover {
+            box-shadow: 0 4px 16px #1b56c043;
+            background: #d0e7f7;
+        }
+        #ingredientsList .ingredient-id {
+            color: #ffffff;
+            background: #4fb6ed;
+            font-weight: bold;
+            font-size: 1.05em;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            box-shadow: 0 2px 7px #7ac2ff33;
+        }
+        #ingredientsList .ingredient-name {
+            font-weight: 500;
+            color: #234066;
+        }
+        /* Recipes List */
+        #recipesList {
+            padding-left: 0;
+        }
+        #recipesList li {
+            background: #f1faff;
+            border-left: 5px solid #3498db;
+            margin-bottom: 8px;
+            padding: 10px 12px 10px 18px;
+            border-radius: 7px;
+            font-size: 1.03em;
+            color: #374968;
+            box-shadow: 0 1px 3px #228cd011;
+        }
+        #recipeIngredients {
+            width: 220px;
+            min-height: 85px;
+            max-height: 130px;
+            background: #f3f8fb;
+            border: 2px solid #90caf9;
+            color: #2566a7;
+            font-size: 1.06em;
+            border-radius: 9px;
+            margin-left: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 6px #87b7da29;
+            padding: 6px 8px;
+            outline: none;
+            transition: border-color .19s;
+        }
+        #recipeIngredients:focus {
+            border-color: #3498db;
+            background: #e8f3fd;
+        }
+        #recipeIngredients option {
+            padding: 4px 7px;
+            border-radius: 5px;
+        }
+        #recipeIngredients option:checked {
+            background: #bbdefb !important;
+            color: #1763a7;
+            font-weight: bold;
+        }
+        @media (max-width: 700px) {
+            #recipeIngredients {
+                width: 95%;
+                margin-left: 0;
+            }
+        }
+
+        /* Forms & Inputs */
+        form input, form select {
+            margin-right: 7px;
+        }
+        input:focus, select:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 3px #cbe8fa;
+        }
+        .logout-btn {
+            background: #e74c3c !important;
+            margin-left: 15px;
+            border-radius: 20px;
+        }
+        @media (max-width: 700px) {
+            .container { margin: 10px 2px; padding: 8px 3px;}
+            .section { padding: 10px 4px;}
+            h1 { font-size: 1.4em;}
+            h2 { font-size: 1.15em;}
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="section">
+        <h1><i class="fa-solid fa-door-open"></i> Connexion</h1>
+        <input type="text" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Mot de passe">
+        <button onclick="login()"><i class="fa-solid fa-right-to-bracket"></i> Se connecter</button>
+        <button onclick="logout()" id="logoutBtn" class="logout-btn" style="display:none;">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> Déconnexion
+        </button>
+        <span id="loginStatus" class="status"></span>
+    </div>
+
+    <div class="section">
+        <h2><i class="fa-solid fa-user-plus"></i> Inscription</h2>
+        <input type="text" id="registerEmail" placeholder="Email">
+        <input type="password" id="registerPassword" placeholder="Mot de passe">
+        <button onclick="register()"><i class="fa-solid fa-user-check"></i> S'inscrire</button>
+        <span id="registerStatus" class="status"></span>
+    </div>
+
+    <div class="section">
+        <h2><i class="fa-solid fa-carrot"></i> Ingrédients</h2>
+        <button onclick="fetchIngredients()"><i class="fa-solid fa-list"></i> Voir mes ingrédients</button>
+        <ul id="ingredientsList"></ul>
+        <input type="text" id="ingredientName" placeholder="Nom de l'ingrédient">
+        <button onclick="addIngredient()"><i class="fa-solid fa-plus"></i> Ajouter</button>
+        <span id="ingredientStatus" class="status"></span>
+        <h3>Modifier un ingrédient</h3>
+        <input type="number" id="updateIngredientId" placeholder="ID à modifier" style="width:85px;">
+        <input type="text" id="updateIngredientName" placeholder="Nouveau nom">
+        <button onclick="updateIngredient()"><i class="fa-solid fa-pen-to-square"></i> Modifier</button>
+        <span id="updateIngredientStatus" class="status"></span>
+    </div>
+
+    <div class="section">
+        <h2><i class="fa-solid fa-utensils"></i> Recettes</h2>
+        <form id="add-recipe-form" autocomplete="off" style="margin-bottom:12px;display:flex;flex-wrap:wrap;align-items:flex-start;gap:10px;">
+            <input type="text" id="recipeTitle" placeholder="Titre" required style="flex:1 0 150px;min-width:110px;">
+            <input type="text" id="recipeDesc" placeholder="Description" required style="flex:1 0 150px;min-width:110px;">
+            <select id="recipeIngredients" multiple size="5"></select>
+            <button type="submit" style="align-self:flex-end;"><i class="fa-solid fa-plus"></i> Ajouter la recette</button>
+        </form>
+
+        <span id="recipeStatus" class="status"></span>
+        <h3>Liste des recettes</h3>
+        <ul id="recipesList"></ul>
+    </div>
+</div>
+
+<script>
+let token = "";
+
+function login() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    fetch('http://localhost:5027/api/Auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+    })
+    .then(res => {
+        if (!res.ok) throw new Error('Erreur de connexion');
+        return res.json();
+    })
+    .then(data => {
+        token = data.token;
+        document.getElementById('loginStatus').innerText = "Connecté !";
+        document.getElementById('logoutBtn').style.display = "";
+        updateIngredientsSelect();
+        fetchIngredients();
+        fetchRecipes();
+    })
+    .catch(() => {
+        document.getElementById('loginStatus').innerText = "Erreur de connexion.";
+    });
+}
+
+function logout() {
+    token = "";
+    document.getElementById('loginStatus').innerText = "Déconnecté.";
+    document.getElementById('logoutBtn').style.display = "none";
+    document.getElementById('ingredientsList').innerHTML = "";
+    document.getElementById('recipesList').innerHTML = "";
+    document.getElementById('ingredientStatus').innerText = "";
+    document.getElementById('recipeStatus').innerText = "";
+    document.getElementById('ingredientName').value = "";
+    document.getElementById('add-recipe-form').reset();
+    document.getElementById('recipeIngredients').innerHTML = "";
+}
+
+function register() {
+    const email = document.getElementById('registerEmail').value;
+    const password = document.getElementById('registerPassword').value;
+    fetch('http://localhost:5027/api/Auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+    })
+    .then(res => res.text())
+    .then(msg => {
+        document.getElementById('registerStatus').innerText = msg;
+    })
+    .catch(() => {
+        document.getElementById('registerStatus').innerText = "Erreur d'inscription.";
+    });
+}
+
+// Liste des ingrédients
+function fetchIngredients() {
+    fetch('http://localhost:5027/api/Ingredients', {
+        headers: { Authorization: 'Bearer ' + token }
+    })
+    .then(res => res.json())
+    .then(list => {
+        const ul = document.getElementById('ingredientsList');
+        ul.innerHTML = '';
+        list.forEach(i => {
+            const li = document.createElement('li');
+            li.innerHTML = `<span class="ingredient-id">${i.id}</span> 
+                            <span class="ingredient-name">${i.name}</span>`;
+            ul.appendChild(li);
+        });
+
+        const select = document.getElementById('recipeIngredients');
+        if (select) {
+            select.innerHTML = '';
+            list.forEach(i => {
+                const option = document.createElement('option');
+                option.value = i.id;
+                option.text = i.name;
+                select.appendChild(option);
+            });
+        }
+    });
+}
+
+function addIngredient() {
+    const name = document.getElementById('ingredientName').value.trim();
+    if (!name) {
+        document.getElementById('ingredientStatus').innerText = "Le nom de l'ingrédient est obligatoire.";
+        return;
+    }
+    fetch('http://localhost:5027/api/Ingredients', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token
+        },
+        body: JSON.stringify({ name })
+    })
+    .then(res => {
+        if (res.status === 201) {
+            document.getElementById('ingredientStatus').innerText = "Ingrédient ajouté.";
+            document.getElementById('ingredientName').value = "";
+            fetchIngredients();
+            updateIngredientsSelect();
+        } else if (res.status === 401) {
+            document.getElementById('ingredientStatus').innerText = "Non autorisé, connecte-toi !";
+        } else {
+            document.getElementById('ingredientStatus').innerText = "Erreur.";
+        }
+    });
+}
+
+function updateIngredient() {
+    const id = document.getElementById('updateIngredientId').value;
+    const name = document.getElementById('updateIngredientName').value.trim();
+    if (!id || !name) {
+        document.getElementById('updateIngredientStatus').innerText = "ID et nom obligatoires.";
+        return;
+    }
+    fetch(`http://localhost:5027/api/Ingredients/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token
+        },
+        body: JSON.stringify({ name })
+    })
+    .then(res => {
+        if (res.status === 204) {
+            document.getElementById('updateIngredientStatus').innerText = "Modifié !";
+            document.getElementById('updateIngredientId').value = "";
+            document.getElementById('updateIngredientName').value = "";
+            fetchIngredients();
+        } else if (res.status === 401) {
+            document.getElementById('updateIngredientStatus').innerText = "Non autorisé";
+        } else if (res.status === 404) {
+            document.getElementById('updateIngredientStatus').innerText = "Ingrédient non trouvé.";
+        } else {
+            document.getElementById('updateIngredientStatus').innerText = "Erreur.";
+        }
+    });
+}
+
+function updateIngredientsSelect() {
+    fetch('http://localhost:5027/api/Ingredients', {
+        headers: { Authorization: 'Bearer ' + token }
+    })
+    .then(res => res.json())
+    .then(list => {
+        const sel = document.getElementById('recipeIngredients');
+        if (!sel) return;
+        sel.innerHTML = '';
+        list.forEach(i => {
+            const opt = document.createElement('option');
+            opt.value = i.id;
+            opt.innerText = i.name;
+            sel.appendChild(opt);
+        });
+    });
+}
+
+function fetchRecipes() {
+    fetch('http://localhost:5027/api/Recipes', {
+        headers: { Authorization: 'Bearer ' + token }
+    })
+    .then(res => res.json())
+    .then(list => {
+        const ul = document.getElementById('recipesList');
+        ul.innerHTML = '';
+        list.forEach(r => {
+          let txt = r.title + " : " + r.description;
+          if (r.ingredients && r.ingredients.length > 0) {
+              txt += " (Ingrédients : " + r.ingredients.map(i => i.name).join(", ") + ")";
+          }
+          const li = document.createElement('li');
+          li.innerText = txt;
+          ul.appendChild(li);
+      });
+
+    });
+}
+
+function addRecipe(e) {
+    if (e) e.preventDefault();
+    const title = document.getElementById('recipeTitle').value;
+    const description = document.getElementById('recipeDesc').value;
+    const selected = Array.from(document.getElementById('recipeIngredients').selectedOptions).map(o => parseInt(o.value));
+    fetch('http://localhost:5027/api/Recipes', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token
+        },
+        body: JSON.stringify({ title, description, ingredientIds: selected })
+    })
+    .then(res => {
+        if (res.status === 201) {
+            document.getElementById('recipeStatus').innerText = "Recette ajoutée.";
+            document.getElementById('add-recipe-form').reset();
+            fetchRecipes();
+        } else if (res.status === 401) {
+            document.getElementById('recipeStatus').innerText = "Non autorisé, connecte-toi !";
+        } else {
+            document.getElementById('recipeStatus').innerText = "Erreur.";
+        }
+    });
+}
+
+document.getElementById('add-recipe-form').addEventListener('submit', addRecipe);
+
+if (token) {
+    fetchIngredients();
+    fetchRecipes();
+}
+</script>
+</body>
+</html>

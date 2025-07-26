@@ -1,0 +1,6 @@
+@SmartFridgeApi_HostAddress = http://localhost:5027
+
+GET {{SmartFridgeApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
