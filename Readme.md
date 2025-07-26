@@ -20,6 +20,17 @@ Prérequis
 .NET 8 SDK
 
 Navigateur web récent
+# 1. Cloner le dépôt
+git clone https://github.com/ton-username/SmartFridgeApi.git
+
+# 2. Se placer dans le dossier du projet
+cd SmartFridgeApi
+
+# 3. Lancer le backend (.NET 8 requis)
+dotnet run
+
+# 4. Ouvrir index.html (frontend) dans un navigateur
+# (par exemple double-cliquer sur index.html ou utiliser une extension Live Server)
 
 Lancer le backend
 bash
