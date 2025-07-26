@@ -77,6 +77,8 @@ de consulter toutes les recettes et voir les ingrédients associés
 Design moderne, adaptatif mobile & desktop
 
 📁 Structure du projet
+<pre> ```plaintext SmartFridgeApi/ ├── Controllers/ │ ├── AuthController.cs │ ├── IngredientsController.cs │ └── RecipesController.cs ├── Data/ │ └── SmartFridgeDbContext.cs ├── DTOs/ │ ├── CreateIngredientDto.cs │ ├── UpdateIngredientDto.cs │ ├── IngredientDto.cs │ ├── CreateRecipeDto.cs │ ├── RecipeDto.cs │ ├── RegisterDto.cs │ └── LoginDto.cs ├── Models/ │ ├── Ingredient.cs │ ├── Recipe.cs │ ├── RecipeIngredient.cs │ └── User.cs ├── Services/ │ ├── AuthService.cs │ ├── IngredientService.cs │ └── RecipeService.cs ├── index.html ├── Program.cs └── README.md ``` </pre>
+
 SmartFridgeApi/
 │
 ├── Controllers/
