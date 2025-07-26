@@ -109,7 +109,8 @@ SmartFridgeApi/
       │    ├── IngredientService.cs
       │    └── RecipeService.cs
       │
-      ├── index.html
+      ├── Frontend/
+      |    ├── index.html
       ├── Program.cs
       └── README.md
 
