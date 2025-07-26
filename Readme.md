@@ -20,8 +20,8 @@ Prérequis
 .NET 8 SDK
 
 Navigateur web récent
-# 1. Cloner le dépôt
-git clone https://github.com/ton-username/SmartFridgeApi.git
+Cloner le dépôt 
+git clone https://github.com/AdelTHT/SmartFridgeApi.git
 
 # 2. Se placer dans le dossier du projet
 cd SmartFridgeApi
