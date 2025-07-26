@@ -63,15 +63,25 @@ Créer le compte
 🛠️ Endpoints principaux
 Méthode	Route	Description	Auth ?
 POST	/api/Auth/register	Inscription	Non
+
 POST	/api/Auth/login	Connexion	Non
+
 GET	/api/Ingredients	Liste ingrédients	Oui
+
 POST	/api/Ingredients	Ajouter ingrédient	Oui
+
 PUT	/api/Ingredients/{id}	Modifier ingrédient	Oui
+
 DELETE	/api/Ingredients/{id}	Supprimer ingrédient	Oui
+
 GET	/api/Recipes	Liste recettes	Oui
+
 POST	/api/Recipes	Ajouter recette	Oui
+
 DELETE	/api/Recipes/{id}	Supprimer recette	Oui
+
 GET	/api/Auth/users	Voir tous les utilisateurs	Oui (admin)
+
 DELETE	/api/Auth/users/{id}	Supprimer un user	Oui (admin)
 
 Documentation Swagger générée automatiquement pour chaque endpoint.
