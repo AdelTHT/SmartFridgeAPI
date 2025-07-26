@@ -114,7 +114,7 @@ SmartFridgeApi/
       ├── Program.cs
       └── README.md
 
-👨‍💻 Auteurs
+👨‍💻 Auteur
 Adel TAHANOUT
 
 Projet réalisé dans le cadre de l’évaluation WebAPI SIO 2025
