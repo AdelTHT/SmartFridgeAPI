@@ -77,8 +77,6 @@ de consulter toutes les recettes et voir les ingrédients associés
 Design moderne, adaptatif mobile & desktop
 
 📁 Structure du projet
-pgsql
-Copier le code
 SmartFridgeApi/
 │
 ├── Controllers/
